@@ -47,7 +47,7 @@ const Auth = forwardRef<HTMLDivElement, object>(function Auth(_props, ref) {
 
   useEffect(() => {
     if (user && !authLoading) {
-      navigate("/");
+      navigate("/dashboard");
     }
   }, [user, navigate, authLoading]);
 

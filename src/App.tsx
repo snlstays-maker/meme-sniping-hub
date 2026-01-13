@@ -11,6 +11,7 @@ import { SessionExpiryWarning } from "@/components/session/SessionExpiryWarning"
 import { OfflineIndicator } from "@/components/OfflineIndicator";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
+import Landing from "./pages/Landing";
 import Scanner from "./pages/Scanner";
 import Portfolio from "./pages/Portfolio";
 import Admin from "./pages/Admin";
@@ -36,9 +37,10 @@ const App = () => (
             <OfflineIndicator />
             <ErrorBoundary>
             <Routes>
+            <Route path="/" element={<Landing />} />
             <Route path="/auth" element={<Auth />} />
             <Route
-              path="/"
+              path="/dashboard"
               element={
                 <ProtectedRoute>
                   <Index />
