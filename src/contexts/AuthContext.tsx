@@ -298,7 +298,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         session,
         role,
         loading,
-        isAdmin: role === "admin",
+        isAdmin: role === "admin" || role === "super_admin",
         sessionExpiring,
         sessionExpiresIn,
         signUp,
