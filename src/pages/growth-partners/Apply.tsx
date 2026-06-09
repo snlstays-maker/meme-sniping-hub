@@ -69,7 +69,15 @@ export default function GrowthPartnerApply() {
     }
     setSubmitting(true);
     const { error } = await supabase.from("partner_applications").insert({
-      ...parsed.data,
+      name: parsed.data.name,
+      wallet_address: parsed.data.wallet_address || null,
+      telegram: parsed.data.telegram || null,
+      x_profile: parsed.data.x_profile || null,
+      discord: parsed.data.discord || null,
+      country: parsed.data.country || null,
+      experience: parsed.data.experience || null,
+      role_applying: parsed.data.role_applying,
+      why_join: parsed.data.why_join,
       user_id: user.id,
     });
     setSubmitting(false);
