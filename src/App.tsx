@@ -22,6 +22,8 @@ import RiskCompliance from "./pages/RiskCompliance";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import Notifications from "./pages/Notifications";
+import GrowthPartnerApply from "./pages/growth-partners/Apply";
+import GrowthPartnerDashboard from "./pages/growth-partners/Dashboard";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -92,6 +94,15 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Notifications />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/growth-partners/apply" element={<GrowthPartnerApply />} />
+            <Route
+              path="/growth-partners/dashboard"
+              element={
+                <ProtectedRoute>
+                  <GrowthPartnerDashboard />
                 </ProtectedRoute>
               }
             />
