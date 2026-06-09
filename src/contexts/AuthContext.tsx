@@ -3,7 +3,7 @@ import { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
-type AppRole = "admin" | "user";
+type AppRole = "user" | "ambassador" | "dev_consultant" | "growth_partner" | "strategic_partner" | "admin" | "super_admin";
 
 // Session timeout after 30 minutes of inactivity
 const SESSION_TIMEOUT_MS = 30 * 60 * 1000;
@@ -298,7 +298,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         session,
         role,
         loading,
-        isAdmin: role === "admin",
+        isAdmin: role === "admin" || role === "super_admin",
         sessionExpiring,
         sessionExpiresIn,
         signUp,

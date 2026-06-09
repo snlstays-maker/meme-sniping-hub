@@ -16,7 +16,9 @@ import {
   Crown,
   BarChart3,
   Bell,
+  Sparkles,
 } from "lucide-react";
+import { useGrowthPartner } from "@/hooks/useGrowthPartner";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -51,6 +53,7 @@ const TradingHeader = forwardRef<HTMLElement, TradingHeaderProps>(function Tradi
 }, ref) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, isAdmin, signOut } = useAuth();
+  const { partner } = useGrowthPartner();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -72,6 +75,14 @@ const TradingHeader = forwardRef<HTMLElement, TradingHeaderProps>(function Tradi
       { label: "Risk", path: "/risk", icon: Shield },
       { label: "Settings", path: "/sniper-settings", icon: Settings },
     ];
+
+    if (partner || isAdmin) {
+      baseItems.push({
+        label: "Growth Partners",
+        path: isAdmin ? "/admin" : "/growth-partners/dashboard",
+        icon: Sparkles,
+      });
+    }
 
     if (isAdmin) {
       baseItems.push({ label: "Admin", path: "/admin", icon: Crown });
