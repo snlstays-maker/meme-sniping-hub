@@ -99,12 +99,21 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            <Route path="/r/:code" element={<GrowthPartnerReferral />} />
             <Route path="/growth-partners/apply" element={<GrowthPartnerApply />} />
             <Route
               path="/growth-partners/dashboard"
               element={
                 <ProtectedRoute>
                   <GrowthPartnerDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/growth-partners"
+              element={
+                <ProtectedRoute requireAdmin>
+                  <GrowthPartnerAdmin />
                 </ProtectedRoute>
               }
             />
