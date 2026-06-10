@@ -51,14 +51,12 @@ export default function GrowthPartnerDashboard() {
   const navigate = useNavigate();
   const [contribs, setContribs] = useState<Contribution[]>([]);
   const [revenue, setRevenue] = useState<RevenueRow[]>([]);
+  const [referrals, setReferrals] = useState<ReferralRow[]>([]);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth");
   }, [authLoading, user, navigate]);
 
-  const [contribs, setContribs] = useState<Contribution[]>([]);
-  const [revenue, setRevenue] = useState<RevenueRow[]>([]);
-  const [referrals, setReferrals] = useState<ReferralRow[]>([]);
 
   useEffect(() => {
     if (!partner) return;
