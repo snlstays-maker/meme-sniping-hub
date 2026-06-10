@@ -20,6 +20,7 @@ import {
   Coins,
 } from "lucide-react";
 import { toast } from "sonner";
+import { PartnerPayoutsCard } from "@/components/growth-partners/PartnerPayoutsCard";
 
 const TIER_LEVELS = ["Scout", "Builder", "Promoter", "Growth Expert", "Meme General", "Legend"];
 const XP_PER_LEVEL = 1000;
