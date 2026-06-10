@@ -273,6 +273,15 @@ export default function GrowthPartnerDashboard() {
           </CardContent>
         </Card>
 
+        <PartnerPayoutsCard
+          partnerId={partner.id}
+          pending={partner.pending_payout}
+          defaultWallet={partner.wallet_address}
+          onChange={refresh}
+        />
+
+
+
 
         <div className="mt-8 text-center">
           <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">← Back to home</Link>
