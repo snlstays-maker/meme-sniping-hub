@@ -259,6 +259,53 @@ export type Database = {
           },
         ]
       }
+      partner_payouts: {
+        Row: {
+          amount: number
+          id: string
+          notes: string | null
+          partner_id: string
+          processed_at: string | null
+          processed_by: string | null
+          requested_at: string
+          status: Database["public"]["Enums"]["partner_payout_status"]
+          tx_hash: string | null
+          wallet_address: string | null
+        }
+        Insert: {
+          amount: number
+          id?: string
+          notes?: string | null
+          partner_id: string
+          processed_at?: string | null
+          processed_by?: string | null
+          requested_at?: string
+          status?: Database["public"]["Enums"]["partner_payout_status"]
+          tx_hash?: string | null
+          wallet_address?: string | null
+        }
+        Update: {
+          amount?: number
+          id?: string
+          notes?: string | null
+          partner_id?: string
+          processed_at?: string | null
+          processed_by?: string | null
+          requested_at?: string
+          status?: Database["public"]["Enums"]["partner_payout_status"]
+          tx_hash?: string | null
+          wallet_address?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_payouts_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partner_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       partner_profiles: {
         Row: {
           bio: string | null
@@ -599,9 +646,31 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      process_partner_payout: {
+        Args: {
+          _action: string
+          _notes?: string
+          _payout_id: string
+          _tx_hash?: string
+        }
+        Returns: undefined
+      }
+      record_partner_revenue: {
+        Args: {
+          _amount: number
+          _event_type: string
+          _metadata?: Json
+          _partner_user_id: string
+        }
+        Returns: string
+      }
       reject_partner_application: {
         Args: { _app_id: string }
         Returns: undefined
+      }
+      request_partner_payout: {
+        Args: { _amount: number; _wallet?: string }
+        Returns: string
       }
     }
     Enums: {
