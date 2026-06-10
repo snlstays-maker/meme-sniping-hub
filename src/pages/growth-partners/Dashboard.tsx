@@ -56,10 +56,14 @@ export default function GrowthPartnerDashboard() {
     if (!authLoading && !user) navigate("/auth");
   }, [authLoading, user, navigate]);
 
+  const [contribs, setContribs] = useState<Contribution[]>([]);
+  const [revenue, setRevenue] = useState<RevenueRow[]>([]);
+  const [referrals, setReferrals] = useState<ReferralRow[]>([]);
+
   useEffect(() => {
     if (!partner) return;
     (async () => {
-      const [c, r] = await Promise.all([
+      const [c, r, ref] = await Promise.all([
         supabase
           .from("partner_contributions")
           .select("id,type,points,created_at")
@@ -72,9 +76,16 @@ export default function GrowthPartnerDashboard() {
           .eq("partner_id", partner.id)
           .order("created_at", { ascending: false })
           .limit(10),
+        supabase
+          .from("partner_referrals")
+          .select("id,referred_user_id,referral_code,source,created_at")
+          .eq("partner_id", partner.id)
+          .order("created_at", { ascending: false })
+          .limit(20),
       ]);
       setContribs((c.data as Contribution[]) ?? []);
       setRevenue((r.data as RevenueRow[]) ?? []);
+      setReferrals((ref.data as ReferralRow[]) ?? []);
     })();
   }, [partner]);
 
