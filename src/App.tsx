@@ -24,6 +24,8 @@ import NotFound from "./pages/NotFound";
 import Notifications from "./pages/Notifications";
 import GrowthPartnerApply from "./pages/growth-partners/Apply";
 import GrowthPartnerDashboard from "./pages/growth-partners/Dashboard";
+import GrowthPartnerReferral from "./pages/growth-partners/Referral";
+import GrowthPartnerAdmin from "./pages/growth-partners/Admin";
 const queryClient = new QueryClient();
 
 const App = () => (
