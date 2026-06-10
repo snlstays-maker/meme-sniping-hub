@@ -241,6 +241,38 @@ export default function GrowthPartnerDashboard() {
           </Card>
         </div>
 
+        {/* Referrals */}
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Users className="w-4 h-4 text-accent" /> Referrals ({referrals.length})
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {referrals.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-6">
+                No referrals yet — share your link to start earning XP and revenue.
+              </p>
+            ) : (
+              <ul className="space-y-2">
+                {referrals.map((r) => (
+                  <li key={r.id} className="flex items-center justify-between p-3 bg-secondary/40 rounded-lg">
+                    <div>
+                      <p className="text-sm font-mono">{r.referred_user_id.slice(0, 8)}…</p>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(r.created_at).toLocaleString()}
+                        {r.source ? ` • ${r.source}` : ""}
+                      </p>
+                    </div>
+                    <Badge variant="outline" className="text-accent border-accent/30">{r.referral_code}</Badge>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
+
+
         <div className="mt-8 text-center">
           <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">← Back to home</Link>
         </div>
