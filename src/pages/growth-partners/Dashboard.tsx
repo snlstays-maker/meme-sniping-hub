@@ -37,6 +37,13 @@ interface RevenueRow {
   commission_amount: number;
   created_at: string;
 }
+interface ReferralRow {
+  id: string;
+  referred_user_id: string;
+  referral_code: string;
+  source: string | null;
+  created_at: string;
+}
 
 export default function GrowthPartnerDashboard() {
   const { user, loading: authLoading } = useAuth();
