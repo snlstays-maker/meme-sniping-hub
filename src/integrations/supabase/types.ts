@@ -328,6 +328,41 @@ export type Database = {
         }
         Relationships: []
       }
+      partner_referrals: {
+        Row: {
+          created_at: string
+          id: string
+          partner_id: string
+          referral_code: string
+          referred_user_id: string
+          source: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          partner_id: string
+          referral_code: string
+          referred_user_id: string
+          source?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          partner_id?: string
+          referral_code?: string
+          referred_user_id?: string
+          source?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_referrals_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partner_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       partner_revenue: {
         Row: {
           amount: number
@@ -551,6 +586,11 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      approve_partner_application: {
+        Args: { _app_id: string }
+        Returns: string
+      }
+      generate_referral_code: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -559,6 +599,10 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      reject_partner_application: {
+        Args: { _app_id: string }
+        Returns: undefined
+      }
     }
     Enums: {
       app_role:

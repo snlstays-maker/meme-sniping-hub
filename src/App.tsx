@@ -24,6 +24,8 @@ import NotFound from "./pages/NotFound";
 import Notifications from "./pages/Notifications";
 import GrowthPartnerApply from "./pages/growth-partners/Apply";
 import GrowthPartnerDashboard from "./pages/growth-partners/Dashboard";
+import GrowthPartnerReferral from "./pages/growth-partners/Referral";
+import GrowthPartnerAdmin from "./pages/growth-partners/Admin";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -97,12 +99,21 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            <Route path="/r/:code" element={<GrowthPartnerReferral />} />
             <Route path="/growth-partners/apply" element={<GrowthPartnerApply />} />
             <Route
               path="/growth-partners/dashboard"
               element={
                 <ProtectedRoute>
                   <GrowthPartnerDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/growth-partners"
+              element={
+                <ProtectedRoute requireAdmin>
+                  <GrowthPartnerAdmin />
                 </ProtectedRoute>
               }
             />

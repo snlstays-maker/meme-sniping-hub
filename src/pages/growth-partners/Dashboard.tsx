@@ -37,6 +37,13 @@ interface RevenueRow {
   commission_amount: number;
   created_at: string;
 }
+interface ReferralRow {
+  id: string;
+  referred_user_id: string;
+  referral_code: string;
+  source: string | null;
+  created_at: string;
+}
 
 export default function GrowthPartnerDashboard() {
   const { user, loading: authLoading } = useAuth();
@@ -44,15 +51,17 @@ export default function GrowthPartnerDashboard() {
   const navigate = useNavigate();
   const [contribs, setContribs] = useState<Contribution[]>([]);
   const [revenue, setRevenue] = useState<RevenueRow[]>([]);
+  const [referrals, setReferrals] = useState<ReferralRow[]>([]);
 
   useEffect(() => {
     if (!authLoading && !user) navigate("/auth");
   }, [authLoading, user, navigate]);
 
+
   useEffect(() => {
     if (!partner) return;
     (async () => {
-      const [c, r] = await Promise.all([
+      const [c, r, ref] = await Promise.all([
         supabase
           .from("partner_contributions")
           .select("id,type,points,created_at")
@@ -65,9 +74,16 @@ export default function GrowthPartnerDashboard() {
           .eq("partner_id", partner.id)
           .order("created_at", { ascending: false })
           .limit(10),
+        supabase
+          .from("partner_referrals")
+          .select("id,referred_user_id,referral_code,source,created_at")
+          .eq("partner_id", partner.id)
+          .order("created_at", { ascending: false })
+          .limit(20),
       ]);
       setContribs((c.data as Contribution[]) ?? []);
       setRevenue((r.data as RevenueRow[]) ?? []);
+      setReferrals((ref.data as ReferralRow[]) ?? []);
     })();
   }, [partner]);
 
@@ -224,6 +240,38 @@ export default function GrowthPartnerDashboard() {
             </CardContent>
           </Card>
         </div>
+
+        {/* Referrals */}
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Users className="w-4 h-4 text-accent" /> Referrals ({referrals.length})
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {referrals.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-6">
+                No referrals yet — share your link to start earning XP and revenue.
+              </p>
+            ) : (
+              <ul className="space-y-2">
+                {referrals.map((r) => (
+                  <li key={r.id} className="flex items-center justify-between p-3 bg-secondary/40 rounded-lg">
+                    <div>
+                      <p className="text-sm font-mono">{r.referred_user_id.slice(0, 8)}…</p>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(r.created_at).toLocaleString()}
+                        {r.source ? ` • ${r.source}` : ""}
+                      </p>
+                    </div>
+                    <Badge variant="outline" className="text-accent border-accent/30">{r.referral_code}</Badge>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
+
 
         <div className="mt-8 text-center">
           <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">← Back to home</Link>

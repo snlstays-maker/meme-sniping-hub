@@ -259,14 +259,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signUp = async (email: string, password: string) => {
     const redirectUrl = `${window.location.origin}/dashboard`;
-    
+    const referralCode = typeof window !== "undefined" ? localStorage.getItem("referral_code") : null;
+    const referralSource = typeof window !== "undefined" ? localStorage.getItem("referral_source") : null;
+
     const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         emailRedirectTo: redirectUrl,
+        data: {
+          ...(referralCode ? { referral_code: referralCode } : {}),
+          ...(referralSource ? { referral_source: referralSource } : {}),
+        },
       },
     });
+
+    if (!error) {
+      localStorage.removeItem("referral_code");
+      localStorage.removeItem("referral_source");
+    }
 
     return { error: error as Error | null };
   };
